@@ -1,4 +1,5 @@
 using BlogMVC.Data;
+using BlogMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,9 +16,9 @@ public class PostsController : Controller
     }
 
     // GET: /Posts
+    // Bütün blog yazılarını listele
     public async Task<IActionResult> Index()
     {
-        // Tüm yazıları en yeniden eskiye sırala
         var posts = await _context.BlogPosts
             .AsNoTracking()
             .OrderByDescending(p => p.PublishedAt)
@@ -27,9 +28,9 @@ public class PostsController : Controller
     }
 
     // GET: /Posts/Details/1
+    // Seçilen blog yazısının detaylarını göster
     public async Task<IActionResult> Details(int id)
     {
-        // ID'ye göre yazıyı getir
         var post = await _context.BlogPosts
             .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
@@ -41,4 +42,58 @@ public class PostsController : Controller
 
         return View(post);
     }
+
+    // GET: /Posts/Create
+    // Yeni yazı ekleme formunu aç
+    [HttpGet]
+    public IActionResult Create()
+    {
+        return View(new CreatePostViewModel());
+    }
+
+    // POST: /Posts/Create
+    // Formdan gelen verileri veritabanına kaydet
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(
+        CreatePostViewModel model)
+    {
+        // Form verileri geçerli mi?
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        // Yeni blog yazısı oluştur
+        var post = new BlogPost
+        {
+            Title = model.Title.Trim(),
+            Summary = model.Summary.Trim(),
+            Content = model.Content.Trim(),
+            PublishedAt = DateTime.Now
+        };
+
+        // Veritabanına ekle
+        _context.BlogPosts.Add(post);
+
+        // SQL Server'a kaydet
+        await _context.SaveChangesAsync();
+
+        // Başarı mesajı
+        TempData["SuccessMessage"] =
+            "Blog yazısı başarıyla eklendi!";
+        
+        // Yeni oluşturulan yazının detayına git
+        return RedirectToAction(
+            nameof(Details),
+            new { id = post.Id }
+        );
+    }
 }
+
+// GET ve POST arasındaki fark
+// GET Create() Kullanıcıya boş formu gösterir.
+// POST Create() Formdan gelen bilgileri alır ve kaydeder.
+// ModelState.IsValid Kullanıcının girdiği verileri doğrular.
+// _context.BlogPosts.Add(post) Yeni yazıyı EF Core'a ekler.
+// SaveChangesAsync() Kaydı SQL Server'a yazar.
