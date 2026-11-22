@@ -1,0 +1,58 @@
+@model BlogMVC.Models.BlogPost
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-5">
+
+    <!-- GERİ DÖN -->
+    <div class="mb-4">
+        <a asp-controller="Posts"
+           asp-action="Index"
+           class="btn btn-outline-secondary">
+            ← Blog Yazılarına Dön
+        </a>
+    </div>
+
+    <!-- BLOG DETAY KARTI -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-4 p-md-5">
+
+            <!-- KATEGORİ -->
+            <span class="badge bg-primary mb-3">
+                Yazılım
+            </span>
+
+            <!-- BAŞLIK -->
+            <h1 class="display-5 fw-bold mb-3">
+                @Model.Title
+            </h1>
+
+            <!-- YAYIN TARİHİ -->
+            <p class="text-muted mb-4">
+                Yayın Tarihi:
+                @Model.PublishedAt.ToString("dd.MM.yyyy")
+            </p>
+
+            <hr />
+
+            <!-- KISA AÇIKLAMA -->
+            <p class="lead mt-4">
+                @Model.Summary
+            </p>
+
+            <!-- YAZI İÇERİĞİ -->
+            <div class="mt-4">
+                <h4>Yazı İçeriği</h4>
+
+                <p class="lh-lg">
+                    @Model.Content
+                </p>
+            </div>
+
+        </div>
+    </div>
+    
+</div>
