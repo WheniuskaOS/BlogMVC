@@ -53,13 +53,22 @@
                         </div>
 
                         <!-- DETAY BUTONU -->
-                        <div class="mt-auto pt-4">
+                        <div class="mt-auto pt-4 d-flex gap-2 flex-wrap">
+                            
                             <a asp-controller="Posts"
                                asp-action="Details"
                                asp-route-id="@post.Id"
                                class="btn btn-primary">
-                                Devamını Oku
+                                Devamını oku
                             </a>
+
+                            <a asp-controller="Posts"
+                               asp-action="Edit"
+                               asp-route-id="@post.Id"
+                               class="btn btn-warning">
+                                Düzenle
+                            </a>
+                            
                         </div>
 
                     </div>

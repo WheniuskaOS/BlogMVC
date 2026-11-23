@@ -89,6 +89,80 @@ public class PostsController : Controller
             new { id = post.Id }
         );
     }
+
+    // GET: /Posts/Edit/4
+    // Düzenleme formunu aç
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        // Düzenlenecek yazıyı veritabanında bul
+        var post = await _context.BlogPosts
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
+        
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        // Verileri düzenleme modeline aktar
+        var model = new EditPostViewModel
+        {
+            Id = post.Id,
+            Title = post.Title,
+            Summary = post.Summary,
+            Content = post.Content
+        };
+
+        return View(model);
+    }
+
+    // POST: /Posts/Edit/4
+    // Düzenlenen bilgileri kaydet
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+        [FromRoute] int id,
+        EditPostViewModel model)
+    {
+        // URL'deki ID ile formdaki ID uyuşuyor mu?
+        if (id != model.Id)
+        {
+            return BadRequest();
+        }
+
+        // Form doğrulaması
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        // Mevcut yazıyı SQL Server'dan getir
+        var post = await _context.BlogPosts.FindAsync(id);
+
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        // Düzenlenen alanları güncelle
+        post.Title = model.Title.Trim();
+        post.Summary = model.Summary.Trim();
+        post.Content = model.Content.Trim();
+
+        // Değişiklikleri veritabanına kaydet
+        await _context.SaveChangesAsync();
+
+        // Başarı mesajı
+        TempData["SuccessMessage"] =
+            "Blog yazısı başarıyla güncellendi!";
+        
+        // Güncellenen yazının detayına dön
+        return RedirectToAction(
+            nameof(Details),
+            new { id = post.Id }
+        );
+    }
 }
 
 // GET ve POST arasındaki fark
@@ -97,3 +171,10 @@ public class PostsController : Controller
 // ModelState.IsValid Kullanıcının girdiği verileri doğrular.
 // _context.BlogPosts.Add(post) Yeni yazıyı EF Core'a ekler.
 // SaveChangesAsync() Kaydı SQL Server'a yazar.
+
+// GET Edit ve POST Edit arasındaki fark
+// GET Edit(int id) Mevcut blog yazısını bulup formda gösterir.
+// POST Edit(...) Düzenlenen bilgileri alır ve veritabanında günceller.
+// ModelState.IsValid Form verilerinin geçerli olduğunu kontrol eder.
+// FindAsync(id) Güncellenecek mevcut kaydı bulur.
+// SaveChangesAsync() Değişiklikleri SQL Server'a kaydeder.
