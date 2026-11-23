@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
+    
+    <title>@ViewData["Title"] - BlogMVC Admin</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <style>
+        body {
+            background: #f8fafc;
+            margin: 0;
+        }
+
+        .admin-shell {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #172337;
+            color: white;
+            padding: 25px 15px;
+            flex-shrink: 12px;
+        }
+
+        .admin-sidebar h4 {
+            margin-bottom: 35px;
+            font-weight: bold;
+            padding-left: 12px;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            color: #dbe4f0;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .admin-sidebar a:hover {
+            background: #304563;
+            color: white;
+        }
+
+        .admin-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 22px 30px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .admin-main {
+            padding: 30px;
+        }
+
+        @@media (max-width: 768px) {
+            .admin-shell {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+            }
+
+            .admin-main {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="admin-shell">
+
+        <!-- SOL MENÜ -->
+        <aside class="admin-sidebar">
+
+            <h4>BlogMVC Admin</h4>
+
+            <a asp-area="Admin"
+               asp-controller="Dashboard"
+               asp-action=Index>
+                Yönetim Paneli
+            </a>
+
+            <a asp-area=""
+               asp-controller="Posts"
+               asp-action="Create">
+                Yeni Yazı Ekle
+            </a>
+
+            <hr />
+
+            <a asp-area=""
+               asp-controller="Home"
+               asp-action="Index">
+                Siteye Dön
+            </a>
+
+        </aside>
+        
+        <!-- SAĞ İÇERİK -->
+        <div class="admin-content">
+
+            <header class="admin-header">
+                <h5 class="m-0">
+                    BlogMVC Yönetim Paneli
+                </h5>
+            </header>
+
+            <main class="admin-main">
+                @RenderBody()
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    
+</body>
+</html>

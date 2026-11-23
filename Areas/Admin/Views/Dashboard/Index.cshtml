@@ -1,0 +1,118 @@
+@model BlogMVC.Areas.Admin.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Yönetim Paneli";
+}
+
+<div class="mb-4">
+    <h2 class="fw-bold">Genel Bakış</h2>
+    <p class="text-muted">
+        Blog yönetim sistemine hoş geldiniz.
+    </p>
+</div>
+
+<!-- İSTATİSTİKLER -->
+<div class="row g-4 mb-4">
+
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <h6 class="text-muted">
+                    Toplam Blog Yazısı
+                </h6>
+
+                <h1 class="fw-bold text-primary">
+                    @Model.TotalPosts
+                </h1>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <h6 class="text-muted">
+                    Veritabanı
+                </h6>
+
+                <h4 class="text-success">
+                    SQL Server
+                </h4>
+
+                <small class="text-muted">
+                    BlogMVCDb
+                </small>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- SON YAZILAR -->
+<div class="card shadow-sm border-0">
+
+    <div class="card-header bg-white p-3">
+        <h5 class="mb-0">Son Blog Yazıları</h5>
+    </div>
+
+    <div class="card-body">
+
+        @if (Model.RecentPosts.Count == 0)
+        {
+            <p class="text-muted">
+                Henüz blog yazısı bulunmuyor.
+            </p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                           <th>Başlık</th>
+                           <th>Yayın Tarihi</th>
+                           <th>İşlem</th> 
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var post in Model.RecentPosts)
+                        {
+                            <tr>
+                                <td>@post.Title</td>
+
+                                <td>
+                                    @post.PublishedAt.ToString("dd.MM.yyyy")
+                                </td>
+
+                                <td>
+                                    <a asp-area=""
+                                       asp-controller="Posts"
+                                       asp-action="Details"
+                                       asp-route-id="@post.Id"
+                                       class="btn btn-sm btn-primary">
+                                        Görüntüle
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        }
+
+        <a asp-area="Admin"
+           asp-controller="Posts"
+           asp-action="Index"
+           class="btn btn-outline-primary mt-2">
+            Tüm Yazıları Yönet
+        </a>
+        
+    </div>
+</div>

@@ -34,7 +34,14 @@ app.UseAuthorization();
 // Statik dosyalar
 app.MapStaticAssets();
 
-// MVC yönlendirmesi
+// ADMIN ALANI YÖNLENDİRMESİ
+app.MapAreaControllerRoute(
+    name: "admin",
+    areaName: "Admin",
+    pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}"
+);
+
+// NORMAL MVC YÖNLENDİRMESİ
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
