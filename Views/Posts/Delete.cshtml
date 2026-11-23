@@ -1,0 +1,81 @@
+@model BlogMVC.Models.BlogPost
+
+@{
+    ViewData["Title"] = "Blog Yazısını Sil";
+}
+
+<div class="container mt-5">
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- SAYFA BAŞLIĞI -->
+            <div class="text-center mb-4">
+                <h1 class="fw-bold text-danger">
+                    Blog Yazısını Sil
+                </h1>
+
+                <p class="text-muted">
+                    Silmek istediğiniz yazıyı kontrol edin.
+                </p>
+            </div>
+
+            <!-- SİLME ONAY KARTI -->
+            <div class="card shadow-sm border-danger">
+
+                <div class="card-body p-4">
+
+                    <!-- UYARI MESAJI -->
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Dikkat!</strong>
+                        Bu blog yazısını silmek istediğinize
+                        emin misiniz? Bu işlem geri alınamaz...
+                    </div>
+
+                    <!-- YAZI BİLGİLERİ -->
+                    <h3 class="fw-bold mb-3">
+                        @Model.Title
+                    </h3>
+
+                    <p class="text-muted">
+                        @Model.Summary
+                    </p>
+
+                    <p>
+                        <strong>Yayın Tarihi:</strong>
+                        @Model.PublishedAt.ToString("dd.MM.yyyy")
+                    </p>
+
+                    <hr />
+
+                    <!-- SİLME FORMU -->
+                    <form asp-controller="Posts"
+                          asp-action="Delete"
+                          asp-route-id="@Model.Id"
+                          method="post">
+                        
+                        <div class="d-flex gap-2 flex-wrap">
+
+                            <button type="submit"
+                                    class="btn btn-danger">
+                                Evet, Yazıyı Sil
+                            </button>
+
+                            <a asp-controller="Posts"
+                               asp-action="Details"
+                               asp-route-id="@Model.Id"
+                               class="btn btn-secondary">
+                                Vazgeç
+                            </a>
+
+                        </div>
+
+                    </form>
+                    
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</div>

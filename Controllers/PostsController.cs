@@ -163,6 +163,56 @@ public class PostsController : Controller
             new { id = post.Id }
         );
     }
+
+    // GET: /Posts/Delete/4
+    // Silinecek yazıyı ve onay sayfasını göster
+    [HttpGet]
+    public async Task<IActionResult> Delete(int id)
+    {
+        // SQL Server'dan yazıyı getir
+        var post = await _context.BlogPosts
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Id == id);
+        
+        // Yazı bulunamadıysa 404 döndür
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        // Silme onay sayfasını göster
+        return View(post);
+    }
+
+    // POST: /Posts/Delete/4
+    // Kullanıcı onay verirse yazıyı sil
+    [HttpPost]
+    [ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        // Silinecek yazıyı bul
+        var post = await _context.BlogPosts.FindAsync(id);
+
+        // Yazı bulunamadıysa 404 döndür
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        // Yazıyı silinmek üzere işaretle
+        _context.BlogPosts.Remove(post);
+
+        // SQL Server'a değişikliği kaydet
+        await _context.SaveChangesAsync();
+
+        // Başarı mesajı
+        TempData["SuccessMessage"] =
+            "Blog yazısı başarıyla silindi!";
+        
+        // Blog yazıları listesine dön
+        return RedirectToAction(nameof(Index));
+    }
 }
 
 // GET ve POST arasındaki fark
@@ -178,3 +228,12 @@ public class PostsController : Controller
 // ModelState.IsValid Form verilerinin geçerli olduğunu kontrol eder.
 // FindAsync(id) Güncellenecek mevcut kaydı bulur.
 // SaveChangesAsync() Değişiklikleri SQL Server'a kaydeder.
+
+// Kodların görevleri
+// [HttpGet] Silme onay sayfasını açar.
+// [HttpPost] Onaylanmış silme isteğini işler.
+// [ActionName("Delete")] DeleteConfirmed metodunu Delete eylemiyle eşleştirir.
+// [ValidateAntiForgeryToken] CSRF korumasını uygular.
+// FindAsync(id) SQL Server'dan ilgili yazıyı getirir.
+// Remove(post) Kaydı silinmek üzere işaretler.
+// SaveChangesAsync() Silme işlemini veritabanına uygular.

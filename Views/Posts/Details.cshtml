@@ -28,6 +28,13 @@
            class="btn btn-warning">
             Yazıyı Düzenle
         </a>
+
+        <a asp-controller="Posts"
+           asp-action="Delete"
+           asp-route-id="@Model.Id"
+           class="btn btn-danger">
+            yazıyı Sil
+        </a>
         
     </div>
 
