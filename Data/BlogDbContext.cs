@@ -1,9 +1,11 @@
 using BlogMVC.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogMVC.Data;
 
-public class BlogDbContext : DbContext
+public class BlogDbContext : IdentityDbContext<IdentityUser>
 {
     // Veritabanı bağlantı ayarlarını alır
     public BlogDbContext(

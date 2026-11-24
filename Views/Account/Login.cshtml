@@ -1,0 +1,131 @@
+@model BlogMVC.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Yönetici Girişi";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <!-- SAYFA BAŞLIĞI -->
+            <div class="text-center mb-4">
+
+                <h1 class="fw-bold">
+                    BlogMVC Admin
+                </h1>
+
+                <p class="text-muted">
+                    Yönetim paneline giriş yapın.
+                </p>
+
+            </div>
+
+            <!-- GİRİŞ KARTI -->
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-4">
+
+                    <h4 class="fw-bold mb-4">
+                        Yönetici Girişi
+                    </h4>
+
+                    <!-- LOGIN FORM -->
+                    <form asp-controller="Account"
+                          asp-action="Login"
+                          method="post">
+
+                        <!-- RETURN URL -->
+                        <input asp-for="ReturnUrl"
+                               type="hidden" />
+                        
+                        <!-- GENEL HATA MESAJLARI -->
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <!-- E-POSTA -->
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <input asp-for="Email"
+                                   type="email"
+                                   class="form-control"
+                                   placeholder="E-posta adresinizi girin"
+                                   autocomplete="username" />
+                            
+                            <span asp-validation-for="Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- PAROLA -->
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label fw-bold">
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   placeholder="Parolanızı girin"
+                                   autocomplete="current-password" />
+                            
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <!-- BENİ HATIRLA -->
+                        <div class="form-check mb-4">
+
+                            <input asp-for="RememberMe"
+                                   class="form-check-input" />
+
+                            <label asp-for="RememberMe"
+                                   class="form-check-label">
+                            </label>
+
+                        </div>
+
+                        <!-- GİRİŞ BUTONU -->
+                        <div class="d-grid">
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-lg">
+                                Giriş Yap
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <!-- ALT BİLGİ -->
+            <div class="text-center mt-4">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="text-decoration-none">
+                    ← Ana Sayfaya Dön
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
