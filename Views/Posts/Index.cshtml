@@ -23,11 +23,6 @@
             Yazılım ve teknoloji dünyasından içerikler.
         </p>
 
-        <a asp-controller="Posts"
-           asp-action="Create"
-           class="btn btn-success mt-3">
-            + Yeni Yazı Ekle
-        </a>
     </div>
 
     <!-- BLOG KARTLARI -->
@@ -60,30 +55,15 @@
                         </div>
 
                         <!-- DETAY, DÜZENLE VE SİL BUTONLARI -->
-                        <div class="mt-auto pt-4 d-flex gap-2 flex-wrap">
+                        <div class="mt-auto pt-4">
                             
                             <!-- DETAY -->
-                            <a asp-controller="Posts"
+                            <a asp-area=""
+                               asp-controller="Posts"
                                asp-action="Details"
                                asp-route-id="@post.Id"
                                class="btn btn-primary">
                                 Devamını Oku
-                            </a>
-
-                            <!-- DÜZENLE -->
-                            <a asp-controller="Posts"
-                               asp-action="Edit"
-                               asp-route-id="@post.Id"
-                               class="btn btn-warning">
-                                Düzenle
-                            </a>
-
-                            <!-- SİLME ONAY SAYFASI -->
-                            <a asp-controller="Posts"
-                               asp-action="Delete"
-                               asp-route-id="@post.Id"
-                               class="btn btn-danger">
-                                Sil
                             </a>
 
                         </div>

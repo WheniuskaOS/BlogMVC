@@ -1,0 +1,106 @@
+@model BlogMVC.Models.CreatePostViewModel
+
+@{
+    ViewData["Title"] = "Yeni Blog Yazısı";
+}
+
+<div class="mb-4">
+    <h2 class="fw-bold">Yeni Blog Yazısı</h2>
+
+    <p class="text-muted">
+        Blog sitenize yeni bir yazı ekleyin.
+    </p>
+</div>
+
+<div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+
+        <form asp-area="Admin"
+              asp-controller="Posts"
+              asp-action="Create"
+              method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3">
+            </div>
+
+            <!-- BAŞLIK -->
+            <div class="mb-3">
+
+                <label asp-for="Title" class="form-label">
+                    Yazı Başlığı
+                </label>
+
+                <input asp-for="Title"
+                       class="form-control"
+                       placeholder="Blog yazısının başlığını girin..." />
+
+                <span asp-validation-for="Title"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <!-- ÖZET -->
+            <div class="mb-3">
+
+                <label asp-for="Summary" class="form-label">
+                    Yazı Özeti
+                </label>
+
+                <textarea asp-for="Summary"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Blog yazısının kısa özetini girin...">
+                </textarea>
+
+                <span asp-validation-for="Summary"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <!-- İÇERİK -->
+            <div class="mb-3">
+
+                <label asp-for="Content" class="form-label">
+                    Yazı İçeriği
+                </label>
+
+                <textarea asp-for="Content"
+                          class="form-control"
+                          rows="10"
+                          placeholder="Blog yazısının içeriğini yazın...">
+                </textarea>
+
+                <span asp-validation-for="Content"
+                      class="text-danger">
+                </span>
+
+            </div>
+
+            <!-- BUTONLAR -->
+            <div class="d-flex gap-2 mt-4">
+
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i>
+                    Yazıyı Kaydet
+                </button>
+
+                <a asp-area="Admin"
+                   asp-controller="Posts"
+                   asp-action="Index"
+                   class="btn btn-secondary">
+                    İptal
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
