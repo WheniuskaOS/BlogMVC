@@ -60,6 +60,17 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// GELİŞTİRME ORTAMINDA ADMIN HESABI OLUŞTUR
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+
+    await IdentitySeeder.SeedAdminAsync(
+        scope.ServiceProvider,
+        app.Configuration
+    );
+}
+
 // Hata yönetimi
 if (!app.Environment.IsDevelopment())
 {

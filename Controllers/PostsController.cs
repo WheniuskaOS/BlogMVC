@@ -2,6 +2,7 @@ using BlogMVC.Data;
 using BlogMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BlogMVC.Controllers;
 
@@ -46,6 +47,7 @@ public class PostsController : Controller
     // GET: /Posts/Create
     // Yeni yazı ekleme formunu aç
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public IActionResult Create()
     {
         return View(new CreatePostViewModel());
@@ -54,6 +56,7 @@ public class PostsController : Controller
     // POST: /Posts/Create
     // Formdan gelen verileri veritabanına kaydet
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         CreatePostViewModel model)
@@ -93,6 +96,7 @@ public class PostsController : Controller
     // GET: /Posts/Edit/4
     // Düzenleme formunu aç
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int id)
     {
         // Düzenlenecek yazıyı veritabanında bul
@@ -120,6 +124,7 @@ public class PostsController : Controller
     // POST: /Posts/Edit/4
     // Düzenlenen bilgileri kaydet
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
         [FromRoute] int id,
@@ -167,6 +172,7 @@ public class PostsController : Controller
     // GET: /Posts/Delete/4
     // Silinecek yazıyı ve onay sayfasını göster
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         // SQL Server'dan yazıyı getir
@@ -188,6 +194,7 @@ public class PostsController : Controller
     // Kullanıcı onay verirse yazıyı sil
     [HttpPost]
     [ActionName("Delete")]
+    [Authorize(Roles = "Admin")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
